@@ -64,17 +64,15 @@ private:
         parent = vector<int>(N+1);
         rank = vector<int>(N+1);
         init();
-        vector<vector<int>> result;
+        vector<int> result;
         for(auto &edge : edges) {
             if (edge[0] == skipEdge[0] && edge[1] == skipEdge[1])
                 continue;
             bool res = Union(edge[0], edge[1]);
             if (res == false)
-                result.push_back(edge);
+                result = edge;
         }
-        if (result.size() > 0)
-            return result[result.size()-1];
-        return vector<int>();
+        return result;
     }
      vector<int> parent;
      vector<int> rank;

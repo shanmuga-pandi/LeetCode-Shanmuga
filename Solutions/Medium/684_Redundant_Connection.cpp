@@ -36,13 +36,13 @@ public:
         parent = vector<int>(N+1);
         rank = vector<int>(N+1);
         init();
-        vector<vector<int>> result;
+        vector<int> result;
         for(auto &edge : edges) {
             bool res = Union(edge[0], edge[1]);
             if (res == false)
-                result.push_back(edge);
+                result = edge;
         }
-        return result[result.size()-1];
+        return result;
     }
 private:
      vector<int> parent;
