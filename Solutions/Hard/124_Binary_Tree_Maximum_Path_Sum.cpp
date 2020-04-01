@@ -25,6 +25,29 @@ Input: [-10,9,20,null,null,15,7]
 Output: 42
  */
 
+/* Sample Inputs 
+[-1,2,-3]
+[-10,9,20,null,null,-15,7]
+[-1,2,-3]
+[-10,9,20,null,null,15,7]
+[-10,9,-20,null,null,-15,7]
+[-10,9,20,null,null,15,-7]
+[10,9,-20,null,null,15,-7]
+[10,9,20,null,null,-15,-7]
+[-10,-9,-20,null,null,-15,-7]
+[-10,-9,-20,null,null,-15,7]
+[-10,-9,-20,null,null,-15,0]
+[0]
+[-1]
+[]
+[1]
+[10,-9,-20,null,null,-15,-7]
+[-10,9,-20,null,null,-15,-7]
+[-10,-9,20,null,null,-15,-7]
+[-10,-9,-20,null,null,15,-7]
+[-10,-9,-20,null,null,-15,7]
+[5,4,8,11,null,13,4,7,2,null,null,null,1]
+ */
 /**
  * Definition for a binary tree node.
  * struct TreeNode {
