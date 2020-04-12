@@ -23,6 +23,13 @@ Number of operations won't exceed 10000.
 The last four operations won't be called when stack is empty.
  */
 
+/*
+ Complexity Analysis
+
+Time Complexity: O(N) for the popMax operation, and O(1) for the other operations, where NN is the number of operations performed.
+
+Space Complexity: O(N), the maximum size of the stack.
+ */
 class MaxStack {
 public:
     /** initialize your data structure here. */
@@ -74,6 +81,69 @@ public:
 private:
     stack<int> stk;
     stack<int> max_stk;
+};
+
+
+/**
+ * Your MaxStack object will be instantiated and called as such:
+ * MaxStack* obj = new MaxStack();
+ * obj->push(x);
+ * int param_2 = obj->pop();
+ * int param_3 = obj->top();
+ * int param_4 = obj->peekMax();
+ * int param_5 = obj->popMax();
+ */
+
+
+
+// Solution 2 : Doubly Linked List and Map
+// Complexity Analysis
+
+// Time Complexity: O(logN) for all operations except peek which is O(1), where N is the number of operations performed. Most operations involving TreeMap O(logN).
+
+// Space Complexity: O(N), the size of the data structures used.
+
+class MaxStack {
+public:
+    /** initialize your data structure here. */
+    MaxStack() {
+        
+    }
+    
+    void push(int x) {
+        stack_list.push_front(x);
+        it_map[x].push_back(stack_list.begin());
+    }
+    
+    int pop() {
+        int x = stack_list.front();
+        it_map[x].pop_back();
+        if (it_map[x].empty())
+            it_map.erase(x);
+        stack_list.pop_front();
+        return x;
+    }
+    
+    int top() {
+        return stack_list.front();
+    }
+    
+    int peekMax() {
+        return it_map.rbegin()->first;
+    }
+    
+    int popMax() {
+        int x = it_map.rbegin()->first;
+        auto it = (it_map.rbegin()->second).back();
+        stack_list.erase(it);
+        it_map[x].pop_back();
+        if (it_map[x].empty())
+            it_map.erase(x);
+        return x;
+    }
+private:
+    list<int> stack_list;
+    map<int, vector<list<int>::iterator>> it_map;
 };
 
 /**
