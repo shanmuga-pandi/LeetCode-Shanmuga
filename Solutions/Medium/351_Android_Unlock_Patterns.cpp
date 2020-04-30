@@ -109,11 +109,28 @@ public:
         if (m == 0)
             final_result++;
 
-        for(int i=1;i<=9;i++) {
+	 // Try all numbers as starting point
+ /*       for(int i=1;i<=9;i++) {
             seen.insert(i);
             final_result += numberOfPatterns(i, 1, m, n, seen);
             seen.erase(i);
-        }
+        } */
+
+	// 1 , 3 , 7, 9 are symmetric, so try only one of those
+        seen.insert(1);
+        final_result += (numberOfPatterns(1, 1, m, n, seen) * 4);
+        seen.erase(1);
+
+         // 2 , 4 , 8, 6 are symmetric, so try only one of those
+        seen.insert(2);
+        final_result += (numberOfPatterns(2, 1, m, n, seen) * 4);
+        seen.erase(2);
+
+        // then 5 is remaining
+        seen.insert(5);
+        final_result += (numberOfPatterns(5, 1, m, n, seen));
+        seen.erase(5);
+
         return final_result;
     }
 private:
