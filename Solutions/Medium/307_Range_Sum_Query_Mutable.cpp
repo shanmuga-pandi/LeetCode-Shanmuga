@@ -19,6 +19,8 @@ You may assume the number of calls to update and sumRange function is distribute
 // Time : O(Log n) //update and query
 // Space: O(n)
 
+// Solution 1: Segment Tree
+
 class NumArray {
 public:
 	NumArray(vector<int> &nums) {
@@ -42,10 +44,12 @@ public:
 		j += n;
 		int sum = 0;
 		while (i <= j) {
-			if ((i % 2) == 1) sum += segtree[i];
-			if ((j % 2) == 0) sum += segtree[j];
-			i = (i + 1) / 2;
-			j = (j - 1) / 2;
+			if ((i % 2) == 1) sum += segtree[i]; // if left is odd, then parent contains sum outside range, so we include leftSum
+			if ((j % 2) == 0) sum += segtree[j]; // if right is even, then parent contains sum outside range, so we include rightSum
+            i++;
+            j--;
+			i = i / 2;
+			j = j / 2;
 		}
 		return sum;
 	}
@@ -53,3 +57,62 @@ private:
 	vector<int> segtree;
     int n;
 };
+
+
+// Solution 2 : Binary Indexed Tree
+// Time : O(Log n) //update and query
+// Space: O(n)
+
+class NumArray_BIT {
+public:
+    NumArray_BIT(vector<int>& nums) {
+        BuildBITree(nums);
+    }
+
+    void update(int i, int val) {
+        int diff = val - nums[i];
+        nums[i] = val;
+        init(i, diff);
+    }
+
+    int sumRange(int i, int j) {
+        return getSum(j) - getSum(i-1);
+    }
+private:
+    void BuildBITree(vector<int>& nums) {
+        this->nums = nums;
+        n = nums.size();
+        Bitree = vector<int>(n+1, 0);
+        for(int i=0; i<n;i++) {
+            init(i, nums[i]);
+        }
+    }
+    void init(int index, int value){
+        index = index + 1; // BST always 1 indexed.. Index 0 is dummy
+
+        while(index <= n) {
+            Bitree[index] += value;
+            index = index + (index & -index); // Add last set bit value to move to parent;
+        }
+    }
+    int getSum(int index) {
+        int sum = 0;
+        index = index + 1;
+        while(index > 0) {
+            sum += Bitree[index];
+            index = index - (index & -index); // subtract set last bit value to move to parent
+        }
+        return sum;
+    }
+
+    vector<int> nums;
+    vector<int> Bitree;
+    int n;
+};
+
+/**
+ * Your NumArray object will be instantiated and called as such:
+ * NumArray* obj = new NumArray(nums);
+ * obj->update(i,val);
+ * int param_2 = obj->sumRange(i,j);
+ */
